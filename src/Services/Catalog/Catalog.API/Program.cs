@@ -2,12 +2,13 @@ using Catalog.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.RegisterWebApplicationServices();
+builder.Services.RegisterWebApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapCarter();
+
 app.ConfigWebApplication();
+
 app.Run();
 
 
