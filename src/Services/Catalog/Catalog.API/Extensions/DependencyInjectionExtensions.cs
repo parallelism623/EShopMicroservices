@@ -1,4 +1,8 @@
-﻿namespace Catalog.API.Extensions;
+﻿
+
+using FluentValidation;
+
+namespace Catalog.API.Extensions;
 
 public static class DependencyInjectionExtensions
 {
@@ -6,14 +10,20 @@ public static class DependencyInjectionExtensions
     {
         return services.RegisterMediatR()
                        .RegisterCarter()
-                       .RegisterMartenForPostgresSql(config);
+                       .RegisterMartenForPostgresSql(config)
+                       .RegisterFluentValidtion();
     }
 
+    private static IServiceCollection RegisterFluentValidtion(this IServiceCollection services)
+    {
+        return services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+    }
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
         return services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
         });
     }
     private static IServiceCollection RegisterCarter(this IServiceCollection services)

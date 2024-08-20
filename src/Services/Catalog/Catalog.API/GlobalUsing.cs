@@ -7,3 +7,4 @@ global using Catalog.API.Models;
 global using Catalog.API.Exceptions.Product;
 global using BuildingBlocks.Constants.ExceptionMessages;
 global using Microsoft.AspNetCore.Mvc; 
+global using BuildingBlocks.PipelineBehaviors;

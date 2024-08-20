@@ -1,5 +1,7 @@
 ﻿
 
+using BuildingBlocks.Exceptions;
+
 namespace Catalog.API.Exceptions.Product;
 
 public class ProductNotFoundException : DomainException
