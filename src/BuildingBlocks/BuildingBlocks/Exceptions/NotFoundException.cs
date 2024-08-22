@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BuildingBlocks.Exceptions;
-public class ErrorValidationException : DomainException
+public class NotFoundException : DomainException
 {
-    public ErrorValidationException(string message) : base(message)
+    public NotFoundException(string message) : base(message)
     {
     }
 }

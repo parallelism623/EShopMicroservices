@@ -1,15 +1,12 @@
 ﻿using BuildingBlocks.Exceptions;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuildingBlocks.PipelineBehaviors;
 public class ValidationPipelineBehavior<TRequest, TResponse> (IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+    where TResponse : notnull
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -24,7 +21,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> (IEnumerable<IValid
 
         if(errors.Any())
         {
-            throw new ErrorValidationException(errors.FirstOrDefault()!.ErrorMessage);
+            throw new ValidationErrorException(errors.FirstOrDefault()!.ErrorMessage);
         }
 
         return await next();

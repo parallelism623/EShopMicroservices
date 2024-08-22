@@ -8,3 +8,8 @@ global using Catalog.API.Exceptions.Product;
 global using BuildingBlocks.Constants.ExceptionMessages;
 global using Microsoft.AspNetCore.Mvc; 
 global using BuildingBlocks.PipelineBehaviors;
+global using BuildingBlocks.Exceptions; 
+global using Catalog.API.Extensions;
+global using BuildingBlocks.Middlewares;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;

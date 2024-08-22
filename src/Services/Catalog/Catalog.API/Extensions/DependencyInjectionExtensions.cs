@@ -1,6 +1,9 @@
 ﻿
 
+using BuildingBlocks.Middlewares;
 using FluentValidation;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace Catalog.API.Extensions;
 
@@ -11,7 +14,9 @@ public static class DependencyInjectionExtensions
         return services.RegisterMediatR()
                        .RegisterCarter()
                        .RegisterMartenForPostgresSql(config)
-                       .RegisterFluentValidtion();
+                       .RegisterFluentValidtion()
+                       .RegisterMiddleware()
+                       .RegisterHealthCheck(config);
     }
 
     private static IServiceCollection RegisterFluentValidtion(this IServiceCollection services)
@@ -24,14 +29,25 @@ public static class DependencyInjectionExtensions
         {
             config.RegisterServicesFromAssembly(typeof(Program).Assembly);
             config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+            config.AddOpenBehavior(typeof(LoggingPipelineBehavior<,>));
         });
+    }
+    private static IServiceCollection RegisterMiddleware(this IServiceCollection services)
+    {
+        services.AddSingleton<GlobalHandlingExceptionMiddleware>(); 
+        return services;
     }
     private static IServiceCollection RegisterCarter(this IServiceCollection services)
     {
         services.AddCarter();
         return services;
     }
-
+    private static IServiceCollection RegisterHealthCheck(this IServiceCollection services, IConfiguration config)
+    {
+        services.AddHealthChecks()
+            .AddNpgSql(config.GetConnectionString("PostgreSqlDefault")!);
+        return services;
+    }
     private static IServiceCollection RegisterMartenForPostgresSql(this IServiceCollection services, IConfiguration config)
     {
         services.AddMarten(cfg =>
@@ -43,6 +59,13 @@ public static class DependencyInjectionExtensions
     public static void ConfigWebApplication(this WebApplication app)
     {
         app.MapCarter();
+        app.UseHealthChecks("/health", 
+            new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            }
+        );
     }
+
 }
 
