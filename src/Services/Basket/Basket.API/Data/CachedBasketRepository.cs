@@ -40,7 +40,7 @@ public class CachedBasketRepository(IBasketRepository basketRepository,
         }
         var basket = await basketRepository.GetShoppingCartAsync(userName, cancellationToken);
         return basket;
-    }
+    }   
 
     public void StoreShoppingCart(ShoppingCart cart)
     {

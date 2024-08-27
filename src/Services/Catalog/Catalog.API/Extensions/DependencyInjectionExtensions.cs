@@ -49,7 +49,7 @@ public static class DependencyInjectionExtensions
         return services;
     }
     private static IServiceCollection RegisterMartenForPostgresSql(this IServiceCollection services, IConfiguration config)
-    {
+        {
         services.AddMarten(cfg =>
         {
             cfg.Connection(config.GetConnectionString("PostgreSqlDefault")!);
