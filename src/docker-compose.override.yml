@@ -48,11 +48,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__PostgreSqlDefault=Host=basketdb;Port=5433;Username=postgres;Password=postgres;Database=BasketDb;Include Error Detail=true;
-      - DistributedCache__Connection=distributedcache:6379;
+      - ConnectionStrings__PostgreSqlDefault=Host=basketdb;Port=5432;Username=postgres;Password=postgres;Database=BasketDb;Include Error Detail=true;
+      - DistributedCache__Connection=distributedcache:6379
+      - gRPCOptions__Connection=https://discount.grpc:8081
     depends_on:
       - basketdb
       - distributedcache
+      - discount.grpc 
     ports:
       - "6001:8080"
       - "6061:8081"
