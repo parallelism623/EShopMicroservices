@@ -3,9 +3,9 @@ using Ordering.Domain.ValueObjects;
 namespace Ordering.Domain.Models;
 public class OrderItem : Entity<OrderItemId>
 {
-    internal OrderItem(ProductId productId, OrderId orderId, int quantity, decimal price)
+    internal OrderItem(OrderId orderId, ProductId productId, int quantity, decimal price)
     {
-        Id = new OrderItemId();
+        Id = OrderItemId.Of(Guid.NewGuid());
         ProductId = productId;
         OrderId = orderId;
         Quantity = quantity;
