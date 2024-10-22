@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
-
-builder.Services.AddGrpc();
 var config = builder.Configuration;
 builder.Services.AddDbContext<DiscountContext>(cfg =>
 {
