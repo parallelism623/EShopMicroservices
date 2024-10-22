@@ -32,7 +32,7 @@ services:
     container_name: orderdb
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=123
+      - SA_PASSWORD=mssql@sa123
     restart: always
     ports:
       - "1433:1433"
@@ -78,6 +78,20 @@ services:
     ports:
       - "6002:8080"
       - "6062:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  ordering.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Default=Server=localhost;Database=OrderDb;User Id=sa;Password=mssql@sa123;Encrypt=False;TrustServerCertificate=True;
+    ports:
+      - "6003:8080"
+      - "6063:8081"
+    depends_on:
+      - orderdb
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
