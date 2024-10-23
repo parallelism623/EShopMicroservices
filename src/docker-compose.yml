@@ -2,14 +2,14 @@ version: '3.4'
 
 services:
   catalogdb:
-    image: postgres
+    image: postgres:16
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
   basketdb:
-    image: postgres
+    image: postgres:16
   distributedcache: 
     image: redis
   orderdb:
@@ -24,6 +24,9 @@ services:
     build:
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+
+
+
   ordering.api:
     image: ${DOCKER_REGISTRY-}orderingapi
     build:
@@ -33,6 +36,11 @@ services:
 volumes:
   postgres_catalog: 
   postgres_basket:
+  mssql_ordering:
+
+
+
+
 
 
 
