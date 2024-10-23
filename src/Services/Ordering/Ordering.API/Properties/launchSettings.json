@@ -1,5 +1,14 @@
 {
   "profiles": {
+    "https": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:6063",
+      "environmentVariables": {
+        "ASPNETCORE_HTTPS_PORTS": "8081",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "Container (Dockerfile)": {
       "commandName": "Docker",
       "launchBrowser": false,

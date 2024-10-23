@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Ordering.Domain.Abstraction;
 using Ordering.Domain.Models;
 using System.Reflection;
 
@@ -18,6 +19,24 @@ namespace Ordering.Infrastructure.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var trackingListObject = ChangeTracker.Entries().Where(e => e.State != EntityState.Unchanged);
+
+            foreach (var tracking in trackingListObject)
+            {
+                if (tracking.State == EntityState.Added)
+                {
+                    var item = tracking.Entity.GetType().GetRuntimeProperties();
+                }
+                if (tracking.State == EntityState.Modified)
+                {
+
+                }
+            }
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
